@@ -7,8 +7,8 @@ const Footer = () => {
       <footer>
         <div className='container grid2'>
           <div className='box'>
-            <h1>Bonik</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor libero id et, in gravida. Sit diam duis mauris nulla cursus. Erat et lectus vel ut sollicitudin elit at amet.</p>
+            <h1>Orbie</h1>
+            <p>“"Dengan rasa yang mendalam dan semangat yang berkobar, kami menciptakan roti segar yang melebur dalam mulut dengan kelembutan sempurna, menggugah indera penciuman Anda dengan aroma lezat, serta memberikan kehangatan dan kebahagiaan dalam setiap gigitan."</p>
             <div className='icon d_flex'>
               <div className='img d_flex'>
                 <i class='fa-brands fa-google-play'></i>
@@ -24,7 +24,6 @@ const Footer = () => {
           <div className='box'>
             <h2>About Us</h2>
             <ul>
-              <li>Careers</li>
               <li>Our Stores</li>
               <li>Our Cares</li>
               <li>Terms & Conditions</li>
@@ -44,9 +43,9 @@ const Footer = () => {
           <div className='box'>
             <h2>Contact Us</h2>
             <ul>
-              <li>70 Washington Square South, New York, NY 10012, United States </li>
-              <li>Email: uilib.help@gmail.com</li>
-              <li>Phone: +1 1123 456 780</li>
+              <li>Bangunsari, Caruban, Madiun</li>
+              <li>Email: orbie123@gmail.com</li>
+              <li>Phone: +6281912006281</li>
             </ul>
           </div>
         </div>

@@ -1,51 +1,59 @@
-import React, { useState } from "react"
-import { Link } from "react-router-dom"
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
+import "./Navbar.css";
 
 const Navbar = () => {
-  // Toogle Menu
-  const [MobileMenu, setMobileMenu] = useState(false)
+  // Toggle Menu
+  const [MobileMenu, setMobileMenu] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleMenuToggle = () => {
+    setMobileMenu(!MobileMenu);
+  };
+
+  const handleProfileClick = () => {
+    if (isLoggedIn) {
+      // Lakukan aksi logout atau tampilkan menu pengguna
+      console.log("Logout");
+    } else {
+      // Redirect ke halaman login jika belum login
+      console.log("Redirect to Login");
+    }
+  };
+
   return (
     <>
       <header className='header'>
         <div className='container d_flex'>
-          <div className='catgrories d_flex'>
-            <span class='fa-solid fa-border-all'></span>
-            <h4>
-              Categories <i className='fa fa-chevron-down'></i>
-            </h4>
-          </div>
-
           <div className='navlink'>
-            <ul className={MobileMenu ? "nav-links-MobileMenu" : "link f_flex capitalize"} onClick={() => setMobileMenu(false)}>
-              {/*<ul className='link f_flex uppercase {MobileMenu ? "nav-links-MobileMenu" : "nav-links"} onClick={() => setMobileMenu(false)}'>*/}
+            <ul
+              className={MobileMenu ? "nav-links-MobileMenu" : "link f_flex capitalize"}
+              onClick={() => {
+                setMobileMenu(false);
+                // Anda dapat menambahkan logika tambahan di sini jika diperlukan
+              }}
+            >
               <li>
                 <Link to='/'>home</Link>
               </li>
               <li>
-                <Link to='/pages'>pages</Link>
-              </li>
-              <li>
-                <Link to='/user'>user account</Link>
-              </li>
-              <li>
-                <Link to='/vendor'>vendor account</Link>
-              </li>
-              <li>
-                <Link to='/track'>track my order</Link>
+                <Link to='/Category'>Category</Link>
               </li>
               <li>
                 <Link to='/contact'>contact</Link>
               </li>
             </ul>
 
-            <button className='toggle' onClick={() => setMobileMenu(!MobileMenu)}>
-              {MobileMenu ? <i className='fas fa-times close home-btn'></i> : <i className='fas fa-bars open'></i>}
+            <button className='toggle' onClick={handleMenuToggle}>
+              {MobileMenu ? <FontAwesomeIcon icon={faTimes} className='close home-btn' /> : <FontAwesomeIcon icon={faBars} className='open' />}
             </button>
           </div>
         </div>
       </header>
     </>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

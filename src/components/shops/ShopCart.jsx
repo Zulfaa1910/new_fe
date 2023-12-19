@@ -45,6 +45,7 @@
 //export default ShopCart
 
 import React, { useState } from "react"
+import "./style.css"
 
 const ShopCart = ({ shopItems, addToCart }) => {
   const [count, setCount] = useState(0)
@@ -76,7 +77,7 @@ const ShopCart = ({ shopItems, addToCart }) => {
                   <i className='fa fa-star'></i>
                 </div>
                 <div className='price'>
-                  <h4>${shopItems.price}.00 </h4>
+                  <h4>Rp.{shopItems.price}.00 </h4>
                   {/* step : 3  
                      if hami le button ma click garryo bahne 
                     */}
