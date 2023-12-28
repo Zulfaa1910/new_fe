@@ -9,13 +9,17 @@ import Transaksi from './common/Cart/transaksi'; // Import Transaksi component
 import Checkout from './common/Cart/Checkout'; // Import the Checkout component
 import Footer from './common/footer/Footer';
 import Sdata from './components/shops/Sdata';
-import ContactUs from './components/contact/Contactus';
+import ContactUs from './components/contact/Contactus'; // Correct casing
+import AddContact from './components/contact/AddContact'; // Import AddContact component
+import EditContact from './components/contact/EditContact'; 
 import Login from './common/Login/Login';
 import SignUp from './common/Login/SignUp';
 import User from './components/riwayat/User';
 import AddUser from './components/riwayat/AddUser';
 import CategoryPage from './components/Category/CategoryPage';
 import SdataCategory from './components/Category/Sdata';
+import Update from './common/Cart/update';
+import AdminLayout from './common/admin/AdminLayout'; 
 
 function App() {
   const { productItems } = Data;
@@ -93,6 +97,10 @@ function App() {
             path="/cart"
             element={<Cart CartItem={CartItem} addToCart={addToCart} decreaseQty={decreaseQty} />}
           />
+          <Route
+            path="/admin/*"
+            element={<AdminLayout>{/* Put admin components here */}</AdminLayout>}
+          />
           {/* Add route for Checkout */}
           <Route
             path="/transaksi"
@@ -101,7 +109,18 @@ function App() {
           <Route path="/checkout" element={<Checkout />} /> 
           <Route path="/riwayat/user" element={<User />} />
           <Route path="/riwayat/adduser" element={<AddUser />} />
-          <Route path="/contact" element={<ContactUs />} />
+          <Route
+            path="/contact"
+            element={<ContactUs />}
+          />
+          <Route
+            path="/contact/add"
+            element={<AddContact />}
+          />
+          <Route
+            path="/contact/edit/:id"
+            element={<EditContact />}
+          />
           <Route
             path="/login"
             element={isLoggedIn ? <Navigate to="/" /> : <Login onLogin={handleLogin} />}
@@ -111,6 +130,7 @@ function App() {
             element={isLoggedIn ? <Navigate to="/" /> : <SignUp onSignup={handleSignup} />}
           />
           <Route path="/category" element={<CategoryPage addToCart={addToCart} shopItems={SdataCategory.shopItems} />} />
+          <Route path="/transaksi/update/:id" element={<Update />} />
         </Routes>
         {!excludeFooterRoutes.includes(window.location.pathname) && <Footer />}
       </Router>

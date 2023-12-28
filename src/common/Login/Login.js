@@ -1,6 +1,7 @@
 // Login.js
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './style.css';
 
 const Login = ({ onLogin }) => {
@@ -19,7 +20,7 @@ const Login = ({ onLogin }) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Check if email and password are provided
@@ -28,15 +29,30 @@ const Login = ({ onLogin }) => {
       return;
     }
 
-    console.log('Login form submitted:', formData);
+    try {
+      // Send a POST request to CodeIgniter 4 backend
+      const response = await axios.post('http://localhost:8080/login', formData);
 
-    // Assume login logic here (e.g., API call)
-    // For simplicity, I'm assuming login is successful
-    // Additional logic after login if needed
-    onLogin();
+      console.log('Login response:', response.data);
 
-    // Redirect to the homepage
-    navigate('/');
+      // Check if login was successful
+      if (response.data.code === 200) {
+        // Show alert if login is successful
+        alert('Login successful!');
+        
+        // Assume login logic here (e.g., API call)
+        // Additional logic after login if needed
+        onLogin();
+
+        // Redirect to the homepage
+        navigate('/');
+      } else {
+        // Show alert if login failed
+        alert('Login failed. Please check your username and password.');
+      }
+    } catch (error) {
+      console.error('Error during Login:', error);
+    }
   };
 
   return (

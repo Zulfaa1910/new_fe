@@ -1,6 +1,7 @@
 // SignUp.js
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios'; // Import library axios
 import './style.css';
 
 const SignUp = ({ onSignup }) => {
@@ -20,26 +21,35 @@ const SignUp = ({ onSignup }) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     // Check if name, email, and password are provided
     if (!formData.name || !formData.email || !formData.password) {
       console.log('Please provide name, email, and password');
       return;
     }
-
-    console.log('Sign Up form submitted:', formData);
-
-    // Assume signup logic here (e.g., API call)
-    // For simplicity, I'm assuming signup is successful
-    // Additional logic after signup if needed
-    onSignup();
-
-    // Redirect to the login page
-    navigate('/login');
+  
+    try {
+      // Send a POST request to CodeIgniter 4 backend
+      const response = await axios.post('http://localhost:8080/insert-register', formData);
+  
+      console.log('Sign Up response:', response.data);
+  
+      // Assume signup logic here (e.g., API call)
+      // For simplicity, I'm assuming signup is successful
+      // Additional logic after signup if needed
+      onSignup();
+  
+      // Show alert if signup is successful
+      alert('Registrasi Berhasil!');
+  
+      // Redirect to the login page
+      navigate('/login');
+    } catch (error) {
+      console.error('Error during Sign Up:', error);
+    }
   };
-
 
   return (
     <div className="login-container">

@@ -1,38 +1,38 @@
 import React, { useState, useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Row, Col, Form, Breadcrumb, Button, Card } from "react-bootstrap";
-import AdminLayout from "../common/admin/AdminLayout";
+import AdminLayout from "../../common/admin/AdminLayout";
+import "./style.css";
 
-const EditUser = () => {
-  const history = useHistory();
+const EditContact = () => {
   const { id } = useParams();
   const [nama, setNama] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const navigate = useNavigate()
 
-  const updateUser = async (e) => {
+  const updateContact = async (e) => {
     e.preventDefault();
-    await axios.post(`http://localhost:8080/api/users/${id}`, {
+    await axios.post(`http://localhost:8080/api/contact/${id}`, {
       nama: nama,
-      username: username,
-      password: password,
       email: email,
+      message: message,
     });
-    history.push("/users");
+    navigate.push("/contact");
   };
 
   useEffect(() => {
-    getUserById();
+    getContactById();
   }, []);
 
-  const getUserById = async () => {
-    const response = await axios.get(`http://localhost:8080/api/users/${id}`);
+  const getContactById = async () => {
+    const response = await axios.get(
+      `http://localhost:8080/api/contact/${id}`
+    );
     setNama(response.data.nama);
-    setUsername(response.data.username);
-    setPassword(response.data.password);
     setEmail(response.data.email);
+    setMessage(response.data.message);
   };
 
   return (
@@ -40,19 +40,19 @@ const EditUser = () => {
       <div>
         <Breadcrumb className="mt-3">
           <Breadcrumb.Item href="/dashboard">Home</Breadcrumb.Item>
-          <Breadcrumb.Item href="/users">Users</Breadcrumb.Item>
-          <Breadcrumb.Item active>Add User</Breadcrumb.Item>
+          <Breadcrumb.Item href="/contact">Message</Breadcrumb.Item>
+          <Breadcrumb.Item active>Edit Message</Breadcrumb.Item>
         </Breadcrumb>
 
         <Card>
           <Card.Body>
             <div className="d-flex justify-content-between align-items-center mb-5">
               <h5 className="font-weight-bold" style={{ fontSize: "20px" }}>
-                Form Edit User
+                Form Edit Message
               </h5>
             </div>
-            <Form onSubmit={updateUser}>
-              <Row className="mb-3">
+            <Form onSubmit={updateContact}>
+            <Row className="mb-3">
                 <Col md="2" className="d-flex justify-content-end">
                   <Form.Label>Nama</Form.Label>
                 </Col>
@@ -70,15 +70,15 @@ const EditUser = () => {
 
               <Row className="mb-3">
                 <Col md="2" className="d-flex justify-content-end">
-                  <Form.Label>Username</Form.Label>
+                  <Form.Label>Email</Form.Label>
                 </Col>
                 <Col md="8">
                   <Form.Control
-                    type="text"
-                    name="username"
-                    placeholder="Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    type="email"
+                    name="email"
+                    value={email}
+                    placeholder="Email"
+                    onChange={(e) => setEmail(e.target.value)}
                     required
                   />
                 </Col>
@@ -86,32 +86,16 @@ const EditUser = () => {
 
               <Row className="mb-3">
                 <Col md="2" className="d-flex justify-content-end">
-                  <Form.Label>Password</Form.Label>
+                  <Form.Label>Message</Form.Label>
                 </Col>
                 <Col md="8">
                   <Form.Control
-                    type="password"
-                    name="password"
-                    placeholder="********"
-                    onChange={(e) => setPassword(e.target.value)}
-                    pattern="(?=.*\d)(?=.*[A-Z])(?=.*\W).{8,}"
-                    title="Password minimal 8 karakter, terdiri dari huruf kapital, angka, dan karakter khusus."
-                  />
-                  <small>Isi password hanya jika ingin mengubah password lama.</small>
-                </Col>
-              </Row>
-
-              <Row className="mb-3">
-                <Col md="2" className="d-flex justify-content-end">
-                  <Form.Label>Email</Form.Label>
-                </Col>
-                <Col md="8">
-                  <Form.Control
-                    type="email"
-                    name="email"
-                    placeholder="example@gmail.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    as="textarea"
+                    name="message"
+                    placeholder="Message"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    rows={4}
                     required
                   />
                 </Col>
@@ -129,4 +113,4 @@ const EditUser = () => {
   );
 };
 
-export default EditUser;
+export default EditContact;

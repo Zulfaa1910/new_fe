@@ -1,28 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { Row, Col, Form, Breadcrumb, Button, Card } from "react-bootstrap";
-import { useNavigate } from "react-router-dom"; // Updated import
 import AdminLayout from "../../common/admin/AdminLayout";
-
-const AddUser = () => {
+import "./style.css";
+const AddContact = () => {
   const [nama, setNama] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const navigate = useNavigate(); // Updated hook
+  const [message, setMessage] = useState("");
+  const navigate = useNavigate()
 
-  const saveUser = async (e) => {
+  const saveContact = async (e) => {
     try {
       e.preventDefault();
-      await axios.post("http://localhost:8080/api/users", {
+      await axios.post("http://localhost:8080/api/contact", {
         nama: nama,
-        username: username,
-        password: password,
         email: email,
+        message: message,
       });
-      navigate("/users");
+      navigate("/contact"); // Use navigate instead of history.push
     } catch (error) {
-      console.error("Error saving user:", error);
+      console.error("Error saving restaurants:", error);
     }
   };
 
@@ -31,18 +29,18 @@ const AddUser = () => {
       <div>
         <Breadcrumb className="mt-3">
           <Breadcrumb.Item href="/dashboard">Home</Breadcrumb.Item>
-          <Breadcrumb.Item href="/users">Users</Breadcrumb.Item>
-          <Breadcrumb.Item active>Add User</Breadcrumb.Item>
+          <Breadcrumb.Item href="/contact">Message</Breadcrumb.Item>
+          <Breadcrumb.Item active>Add Message</Breadcrumb.Item>
         </Breadcrumb>
 
         <Card>
           <Card.Body>
             <div className="d-flex justify-content-between align-items-center mb-5">
               <h5 className="font-weight-bold" style={{ fontSize: "20px" }}>
-                Form Tambah User
+                Form Tambah Message
               </h5>
             </div>
-            <Form onSubmit={saveUser}>
+            <Form onSubmit={saveContact}>
               <Row className="mb-3">
                 <Col md="2" className="d-flex justify-content-end">
                   <Form.Label>Nama</Form.Label>
@@ -61,53 +59,37 @@ const AddUser = () => {
 
               <Row className="mb-3">
                 <Col md="2" className="d-flex justify-content-end">
-                  <Form.Label>Username</Form.Label>
-                </Col>
-                <Col md="8">
-                  <Form.Control
-                    type="text"
-                    name="username"
-                    placeholder="Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                  />
-                </Col>
-              </Row>
-
-              <Row className="mb-3">
-                <Col md="2" className="d-flex justify-content-end">
-                  <Form.Label>Password</Form.Label>
-                </Col>
-                <Col md="8">
-                  <Form.Control
-                    type="password"
-                    name="password"
-                    value={password}
-                    placeholder="********"
-                    onChange={(e) => setPassword(e.target.value)}
-                    pattern="(?=.*\d)(?=.*[A-Z])(?=.*\W).{8,}"
-                    title="Password minimal 8 karakter, terdiri dari huruf kapital, angka, dan karakter khusus."
-                    required
-                  />
-                </Col>
-              </Row>
-
-              <Row className="mb-3">
-                <Col md="2" className="d-flex justify-content-end">
                   <Form.Label>Email</Form.Label>
                 </Col>
                 <Col md="8">
                   <Form.Control
                     type="email"
                     name="email"
-                    placeholder="example@gmail.com"
                     value={email}
+                    placeholder="Email"
                     onChange={(e) => setEmail(e.target.value)}
                     required
                   />
                 </Col>
               </Row>
+
+              <Row className="mb-3">
+                <Col md="2" className="d-flex justify-content-end">
+                  <Form.Label>Message</Form.Label>
+                </Col>
+                <Col md="8">
+                  <Form.Control
+                    as="textarea"
+                    name="message"
+                    placeholder="Message"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    rows={4}
+                    required
+                  />
+                </Col>
+              </Row>
+
               <Col md="10" className="d-flex justify-content-end">
                 <Button variant="success" type="submit">
                   Submit
@@ -121,4 +103,4 @@ const AddUser = () => {
   );
 };
 
-export default AddUser;
+export default AddContact;

@@ -10,6 +10,7 @@ const Transaksi = () => {
     no_tlp: '',
     alamat: '',
     metode_pembayaran: '',
+    created_at: '',
   });
 
   const [transactions, setTransactions] = useState([]);
@@ -41,17 +42,18 @@ const Transaksi = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:8080/transaksi/create', formData);
+      const response = await axios.post('http://localhost:8080/insert-transaksi', formData);
       console.log(response.data);
 
-      if (response.data.status === 201) {
-        alert('Transaction processed successfully');
+      if (response.data.status === 200) {
+        alert('Proses Transaksi Berhasil');
         // Reset form after successful submission
         setFormData({
           nama: '',
           no_tlp: '',
           alamat: '',
           metode_pembayaran: '',
+          created_at: '',
         });
 
         // Fetch updated transactions after submission
@@ -67,15 +69,15 @@ const Transaksi = () => {
 
   const handleDelete = async (id_transaksi) => {
     try {
-      const response = await axios.delete(`http://localhost:8080/transaksi/delete/${id_transaksi}`);
+      const response = await axios.delete(`http://localhost:8080/delete-transaksi/${id_transaksi}`);
       console.log(response.data);
 
       if (response.data.status === 200) {
-        alert('Transaction deleted successfully');
+        alert('Transaksi Berhasil di Hapus');
         // Fetch updated transactions after deletion
         fetchTransactions();
       } else {
-        alert('Error deleting transaction: ' + response.data.messages.success);
+        alert('Gagal Menghapus Transaksi: ' + response.data.messages.success);
       }
     } catch (error) {
       console.error(error);
@@ -106,7 +108,7 @@ const Transaksi = () => {
       </form>
 
       {/* Transaction List */}
-      <table>
+      {/* <table>
         <tbody>
           {transactions.map((transaction, index) => (
             <tr key={transaction.id_transaksi}>
@@ -121,7 +123,7 @@ const Transaksi = () => {
             </tr>
           ))}
         </tbody>
-      </table>
+      </table> */}
     </div>
   );
 };

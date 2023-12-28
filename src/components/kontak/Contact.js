@@ -5,82 +5,73 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import AdminLayout from "../../common/admin/AdminLayout";
-// Corrected import path
 
-const User = () => {
-  const [users, setUsers] = useState([]);
+const Contact = () => {
+  const [contacts, setContact] = useState([])
 
   useEffect(() => {
-    getUsers();
-  }, []);
+    getContact()
+  }, [])
 
-  const getUsers = async () => {
-    try {
-      const response = await axios.get("http://localhost:8080/api/users");
-      setUsers(response.data);
-      console.log(response.data);
-    } catch (error) {
-      console.error("Error fetching users:", error);
-    }
-  };
-
-  const deleteUsers = (id) => {
-    const confirmed = window.confirm("Apakah Anda yakin ingin menghapus?");
+  const getContact = async () => {
+    const contact = await axios.get('http://localhost:8080/api/contact')
+    setContact(contact.data)
+    console.log(contact.data)
+  }
+  const deleteContact = (id) => {
+    const confirmed = window.confirm('Apakah Anda yakin ingin menghapus?')
 
     if (confirmed) {
       axios
-        .delete(`http://localhost:8080/api/users/delete/${id}`)
+        .get(`http://localhost:8080/api/contact/delete/${id}`)
         .then(() => {
-          getUsers();
+          getContact()
         })
         .catch((error) => {
-          console.error("Error deleting user:", error);
-        });
+          console.error('Error deleting restaurant:', error)
+        })
     }
-  };
+  }
 
   return (
     <AdminLayout>
       <div>
         <Breadcrumb className="mt-3">
           <Breadcrumb.Item href="/dashboard">Home</Breadcrumb.Item>
-          <Breadcrumb.Item active>List User</Breadcrumb.Item>
+          <Breadcrumb.Item active>List Message</Breadcrumb.Item>
         </Breadcrumb>
 
         <Card>
           <Card.Body>
             <div className="d-flex justify-content-between align-items-center mb-3">
               <h5 className="font-weight-bold" style={{ fontSize: "20px" }}>
-                Daftar User
+                Daftar Message
               </h5>
-              <Link to="/users/add">
+              <Link to="/contact/add">
                 <Button variant="success">+ Tambah</Button>
               </Link>
             </div>
-            <div
-              className="table-responsive"
-              style={{ overflowY: "auto", maxHeight: "450px" }}
-            >
+            <div className="table-responsive" style={{ overflowY: "auto", maxHeight: "450px" }}>
               <Table striped bordered hover>
                 <thead>
                   <tr>
                     <th>#</th>
                     <th>Nama</th>
-                    <th>Username</th>
                     <th>Email</th>
+                    <th>Message</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {users.map((user, index) => (
-                    <tr key={user.id}>
+                  {contacts.map((contact, index) => (
+                    <tr key={contact.id}>
                       <td>{index + 1}</td>
-                      <td>{user.nama}</td>
-                      <td>{user.username}</td>
-                      <td>{user.email}</td>
+                      <td>{contact.nama}</td>
+                      <td>{contact.email}</td>
+                      <td>{contact.message}</td>
                       <td>
                         <Link
-                          to={`/users/edit/${user.id}`}
+                          to={`/contact/edit/${contact.id}`}
                           className="btn btn-primary btn-sm mr-2"
                         >
                           <FontAwesomeIcon icon={faEdit} />
@@ -88,7 +79,7 @@ const User = () => {
                         <Button
                           variant="danger"
                           size="sm"
-                          onClick={() => deleteUsers(user.id)}
+                          onClick={() => deleteContact(contact.id)}
                         >
                           <FontAwesomeIcon icon={faTrash} />
                         </Button>
@@ -105,4 +96,4 @@ const User = () => {
   );
 };
 
-export default User;
+export default Contact;
